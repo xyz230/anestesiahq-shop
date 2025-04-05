@@ -116,7 +116,7 @@
 
         const countdown = setInterval(() => {
             timeLeft--;
-            loadingText.textContent = Loading: ${timeLeft};
+            loadingText.textContent = `Loading: ${timeLeft}`;
             if (timeLeft <= 0) {
                 clearInterval(countdown);
                 loadingScreen.style.display = 'none';
