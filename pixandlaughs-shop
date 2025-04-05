@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pix And Laughs' Shop!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: black;
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            background: url('https://media2.giphy.com/media/2PWBLDJ2KtB1X6o9vY/giphy.gif') center/cover;
+            filter: blur(8px) brightness(0.5);
+            z-index: -1;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 0, 0, 0.1);
+            border-top-color: #ff0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main-content {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            background: rgba(20, 20, 20, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #cc0000;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loading-text">Loading: 5</div>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <h1 class="title">Welcome to Pix And Laughs' Shop!</h1>
+        <p>Compra i tuoi rank , vip oppure dacci un occhiata!</p>
+        <a href="#" class="button">Start Shopping</a>
+    </div>
+
+    <script>
+        let timeLeft = 5;
+        const loadingText = document.getElementById('loading-text');
+        const loadingScreen = document.getElementById('loading');
+        const mainContent = document.getElementById('main-content');
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            loadingText.textContent = Loading: ${timeLeft};
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                loadingScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
