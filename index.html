@@ -1,11 +1,64 @@
-<!DOCTYPE html>
 <html lang="it"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnestesiaNetwork - Store</title>
     <link rel="icon" href="https://i.imgur.com/Yy69J2K.png" type="image/png">
     <link rel="stylesheet" href="style.css">
-</head>
+<style>
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .sidebar-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 100, 100, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+        
+        .sidebar-item:hover::after {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .content-area {
+            transition: opacity 0.3s ease;
+        }
+        
+        .info-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .info-card:hover::before {
+            left: 100%;
+        }
+    </style></head>
 <body>
     <div class="minecraft-bg"></div>
     
@@ -63,25 +116,19 @@
                 <small>0.00 / 50.00 EUR</small>
             </div>
             <div class="progress-track">
-                <div class="progress-fill"></div>
+                <div class="progress-fill" style="width: 0%;"></div>
             </div>
         </div>
     </div>
 
     <div class="main-content">
         <aside class="sidebar">
-            <div class="sidebar-item active">
+            <div class="sidebar-item" style="">
                 <div class="sidebar-icon">🏠</div>
                 <span class="sidebar-text">Home</span>
             </div>
-            <div class="sidebar-item">
-                <div class="sidebar-icon">📦</div>
-                <span class="sidebar-text">Generale</span>
-            </div>
-            <div class="sidebar-item">
-                <div class="sidebar-icon">❤️</div>
-                <span class="sidebar-text">Lifesteal</span>
-            </div>
+            
+            
             
             <div class="donator-section">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
@@ -109,68 +156,38 @@
             </div>
         </aside>
 
-        <main class="content-area">
-            <div class="welcome-section">
-                <h2>Benvenuto nel negozio ufficiale di AnestesiaNetwork!</h2>
-                <p>Per iniziare lo shopping, seleziona una categoria dalla barra laterale. Nota che i ranghi hanno un costo una tantum e sono permanenti.</p>
-            </div>
+        <main class="content-area" style="opacity: 1;">
+        <div class="welcome-section">
+            <h2>Generale - Ranghi e Pacchetti</h2>
+            <p>Acquista ranghi permanenti e pacchetti speciali per migliorare la tua esperienza di gioco su AnestesiaNetwork.</p>
+        </div>
 
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Supporto / Domande</h3>
-                    <p>Hai bisogno di risposte alle tue domande prima di effettuare l'acquisto? Hai aspettato più di 20 minuti ma il tuo pacchetto non è ancora arrivato? Chiedi alla community o allo staff sul nostro server Discord! Siamo qui per aiutarti.</p>
-                    <p>Potrebbe volerci fino a 15 minuti per elaborare il tuo acquisto. Se non sei ancora accreditato dopo 15 minuti, contatta il nostro team di supporto su Discord.</p>
-                </div>
-
-                <div class="info-card">
-                    <h3>Politica di Rimborso</h3>
-                    <p>Abbiamo una politica di no-rimborso. Tutti gli acquisti sono definitivi e non rimborsabili. Assicurati di acquistare l'articolo corretto prima di procedere al pagamento.</p>
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🌟 Rango VIP</h3>
+                <p>Accesso a comandi speciali, kit esclusivi e vantaggi unici nel server.</p>
+                <div class="buttons">
+                    <button class="btn">Acquista - €5.99</button>
                 </div>
             </div>
 
+            <div class="info-card">
+                <h3>👑 Rango Premium</h3>
+                <p>Tutti i vantaggi VIP plus priorità nella coda, homes aggiuntive e molto altro.</p>
+                <div class="buttons">
+                    <button class="btn">Acquista - €12.99</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>💎 Rango Elite</h3>
+            <p>Il rango più esclusivo con accesso completo a tutte le funzionalità premium del server.</p>
             <div class="buttons">
-                <a href="#" class="btn">Discord</a>
-                <a href="#" class="btn">Terms &amp; Conditions</a>
-                <a href="#" class="btn">Contact Us</a>
+                <button class="btn">Acquista - €24.99</button>
             </div>
-
-            <div class="payment-methods">
-                <div class="payment-method">
-                    <div class="payment-icon">💳</div>
-                    <div>
-                        <div><strong>PayPal</strong></div>
-                        <small style="opacity: 0.8;">Saldo PayPal, Banche, Tutte le Carte di Credito/Debito.</small>
-                    </div>
-                </div>
-                <div class="payment-method">
-                    <div class="payment-icon">💰</div>
-                    <div>
-                        <div><strong>Skrill</strong></div>
-                        <small style="opacity: 0.8;">Paysafecard, Amazon Pay, Pagamenti Mobili, +600 Altro</small>
-                    </div>
-                </div>
-                <div class="payment-method">
-                    <div class="payment-icon">💸</div>
-                    <div>
-                        <div><strong>Stripe</strong></div>
-                        <small style="opacity: 0.8;">Tutte le Carte di Credito e Debito.</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gift-section">
-                <h3 style="color: #ff6464; margin-bottom: 15px;">Buono Regalo</h3>
-                <div class="gift-input">
-                    <input type="text" class="gift-code-input" placeholder="Codice Carta">
-                    <button class="btn verify-gift-btn">Verifica</button>
-                </div>
-            </div>
-
-            <div style="margin-top: 50px;">
-                <h3 style="color: #ff6464; margin-bottom: 15px;">Chi Siamo</h3>
-                <p style="opacity: 0.9; line-height: 1.6;">AnestesiaNetwork è una rete di Minecraft Java Edition che offre ai giocatori un gameplay coinvolgente e unico. Questo è l'unico negozio ufficiale per la rete.</p>
-            </div>
-        </main>
+        </div>
+    </main>
     </div>
 
     <footer class="footer">
@@ -179,5 +196,6 @@
     </footer>
 
     <script src="script.js"></script>
+
 
 </body></html>
