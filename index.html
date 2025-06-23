@@ -45,11 +45,15 @@
         </div>
     </nav>
 
-    <!-- Server Status -->
-    <div class="server-status" style="display: flex; justify-content: center; padding: 20px;">
+    <!-- Server Status - Updated for script compatibility -->
+    <div class="server-status" style="display: flex; justify-content: center; gap: 20px; padding: 20px;">
         <div class="status-badge">
-            <div class="status-dot"></div>
-            <span>Server Online - 127 giocatori</span>
+            <div class="status-dot" id="mc-dot"></div>
+            <span id="mc-players">Caricamento...</span>
+        </div>
+        <div class="status-badge">
+            <div class="status-dot" id="discord-dot"></div>
+            <span id="discord-members">Caricamento Discord...</span>
         </div>
     </div>
 
@@ -82,19 +86,19 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Sidebar -->
+        <!-- Sidebar - Updated for script compatibility -->
         <div class="sidebar">
             <div class="sidebar-item active">
                 <div class="sidebar-icon">🏠</div>
                 <span class="sidebar-text">Home</span>
             </div>
             <div class="sidebar-item">
-                <div class="sidebar-icon">💎</div>
-                <span class="sidebar-text">Ranks VIP</span>
+                <div class="sidebar-icon">⚙️</div>
+                <span class="sidebar-text">Generale</span>
             </div>
             <div class="sidebar-item">
-                <div class="sidebar-icon">📦</div>
-                <span class="sidebar-text">Crates</span>
+                <div class="sidebar-icon">⚔️</div>
+                <span class="sidebar-text">Lifesteal</span>
             </div>
             <div class="sidebar-item">
                 <div class="sidebar-icon">🎮</div>
@@ -118,76 +122,67 @@
             </div>
         </div>
 
-        <!-- Content Area -->
+        <!-- Content Area - Will be dynamically updated by script -->
         <div class="content-area">
             <div class="welcome-section">
-                <h2>Benvenuto nello Store di AnestesiaNetwork</h2>
-                <p>Scopri tutti i nostri prodotti premium per migliorare la tua esperienza di gioco. Dai ranghi VIP alle crates esclusive, abbiamo tutto quello che serve per distinguerti nel server!</p>
+                <h2>Benvenuto nel negozio ufficiale di AnestesiaNetwork!</h2>
+                <p>Per iniziare lo shopping, seleziona una categoria dalla barra laterale. Nota che i ranghi hanno un costo una tantum e sono permanenti.</p>
             </div>
 
             <div class="info-grid">
                 <div class="info-card">
-                    <h3>🎯 Ranghi VIP</h3>
-                    <p>Ottieni accesso a comandi esclusivi, kit speciali e vantaggi unici nel server. Ogni rango include benefici progressivi per un'esperienza di gioco superiore.</p>
-                    <div class="buttons">
-                        <a href="#" class="btn">Scopri i Ranghi</a>
-                    </div>
+                    <h3>Supporto / Domande</h3>
+                    <p>Hai bisogno di risposte alle tue domande prima di effettuare l'acquisto? Hai aspettato più di 20 minuti ma il tuo pacchetto non è ancora arrivato? Chiedi alla community o allo staff sul nostro server Discord! Siamo qui per aiutarti.</p>
+                    <p>Potrebbe volerci fino a 15 minuti per elaborare il tuo acquisto. Se non sei ancora accreditato dopo 15 minuti, contatta il nostro team di supporto su Discord.</p>
                 </div>
+
                 <div class="info-card">
-                    <h3>📦 Crates Misteriose</h3>
-                    <p>Apri le nostre crates per ottenere oggetti rari, cosmetici esclusivi e ricompense speciali. Ogni crate contiene sorprese uniche!</p>
-                    <div class="buttons">
-                        <a href="#" class="btn">Visualizza Crates</a>
+                    <h3>Politica di Rimborso</h3>
+                    <p>Abbiamo una politica di no-rimborso. Tutti gli acquisti sono definitivi e non rimborsabili. Assicurati di acquistare l'articolo corretto prima di procedere al pagamento.</p>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="#" class="btn">Discord</a>
+                <a href="#" class="btn">Terms & Conditions</a>
+                <a href="#" class="btn">Contact Us</a>
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <div class="payment-icon">💳</div>
+                    <div>
+                        <div><strong>PayPal</strong></div>
+                        <small style="opacity: 0.8;">Saldo PayPal, Banche, Tutte le Carte di Credito/Debito.</small>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">💰</div>
+                    <div>
+                        <div><strong>Skrill</strong></div>
+                        <small style="opacity: 0.8;">Paysafecard, Amazon Pay, Pagamenti Mobili, +600 Altro</small>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">💸</div>
+                    <div>
+                        <div><strong>Stripe</strong></div>
+                        <small style="opacity: 0.8;">Tutte le Carte di Credito e Debito.</small>
                     </div>
                 </div>
             </div>
 
-            <!-- Payment Methods -->
-            <div class="info-card">
-                <h3>💳 Metodi di Pagamento</h3>
-                <p>Accettiamo diversi metodi di pagamento per la tua comodità:</p>
-                <div class="payment-methods">
-                    <div class="payment-method">
-                        <div class="payment-icon">💳</div>
-                        <div>
-                            <strong>Carta di Credito/Debito</strong>
-                            <p>Visa, MasterCard, American Express</p>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">🏦</div>
-                        <div>
-                            <strong>PayPal</strong>
-                            <p>Pagamento sicuro e veloce</p>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">🎁</div>
-                        <div>
-                            <strong>Paysafecard</strong>
-                            <p>Pagamento prepagato</p>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">💰</div>
-                        <div>
-                            <strong>Bonifico Bancario</strong>
-                            <p>Trasferimento diretto</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gift Code Section -->
             <div class="gift-section">
-                <div class="info-card">
-                    <h3>🎁 Riscatta Codice Regalo</h3>
-                    <p>Hai ricevuto un codice regalo? Inseriscilo qui per riscattare i tuoi premi!</p>
-                    <div class="gift-input">
-                        <input type="text" class="gift-code-input" placeholder="Inserisci il tuo codice regalo...">
-                        <button class="btn">Riscatta</button>
-                    </div>
+                <h3 style="color: #ff6464; margin-bottom: 15px;">Buono Regalo</h3>
+                <div class="gift-input">
+                    <input type="text" class="gift-code-input" placeholder="Codice Carta">
+                    <button class="btn verify-gift-btn">Verifica</button>
                 </div>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <h3 style="color: #ff6464; margin-bottom: 15px;">Chi Siamo</h3>
+                <p style="opacity: 0.9; line-height: 1.6;">AnestesiaNetwork è una rete di Minecraft Java Edition che offre ai giocatori un gameplay coinvolgente e unico. Questo è l'unico negozio ufficiale per la rete.</p>
             </div>
 
             <!-- Top Donators -->
@@ -253,43 +248,7 @@
         <p>Per supporto: support@anestesianetwork.com</p>
     </footer>
 
-    <script>
-        // Simple JavaScript for interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sidebar navigation
-            const sidebarItems = document.querySelectorAll('.sidebar-item');
-            sidebarItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    sidebarItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-
-            // Gift code redemption
-            const giftInput = document.querySelector('.gift-code-input');
-            const giftButton = document.querySelector('.gift-input .btn');
-            
-            if (giftButton) {
-                giftButton.addEventListener('click', function() {
-                    const code = giftInput.value.trim();
-                    if (code) {
-                        alert('Funzionalità di riscatto in sviluppo!');
-                        giftInput.value = '';
-                    } else {
-                        alert('Inserisci un codice valido!');
-                    }
-                });
-            }
-
-            // Enter key for gift code
-            if (giftInput) {
-                giftInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        giftButton.click();
-                    }
-                });
-            }
-        });
-    </script>
+    <!-- Include your script.js file -->
+    <script src="script.js"></script>
 </body>
 </html>
