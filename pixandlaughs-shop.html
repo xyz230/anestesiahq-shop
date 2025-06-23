@@ -1,128 +1,798 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pix And Laughs' Shop!</title>
+    <title>TharisNetwork - Store</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            background: black;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
             color: white;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .background {
+        .minecraft-bg {
             position: fixed;
-            inset: 0;
-            background: url('https://media2.giphy.com/media/2PWBLDJ2KtB1X6o9vY/giphy.gif') center/cover;
-            filter: blur(8px) brightness(0.5);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('data:image/svg+xml,<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg"><rect width="16" height="16" fill="%23333333" opacity="0.05"/><rect x="16" y="16" width="16" height="16" fill="%23333333" opacity="0.05"/></svg>');
             z-index: -1;
+            opacity: 0.2;
         }
 
-        .loading {
+        .header {
+            background: rgba(255, 100, 100, 0.15);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 100, 100, 0.2);
+            padding: 12px 25px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(255, 100, 100, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .currency {
+            background: rgba(255, 100, 100, 0.2);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255, 100, 100, 0.1);
+            border: 1px solid rgba(255, 100, 100, 0.3);
+        }
+
+        .language {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .cart-info {
+            background: rgba(255, 100, 100, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 100, 100, 0.1);
+            padding: 8px 15px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 100, 100, 0.3);
+            border-radius: 6px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            text-align: center;
-            z-index: 100;
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 0, 0, 0.1);
-            border-top-color: #ff0000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loading-text {
-            font-size: 1.5rem;
-            color: #ff0000;
-            text-shadow: 0 0 10px #ff0000;
+        .server-status {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            position: relative;
+        }
+
+        .status-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff6464;
+            position: relative;
+            animation: statusPulse 2s infinite;
+        }
+
+        .status-dot::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #ff6464;
+            animation: statusRipple 2s infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.9; }
+        }
+
+        @keyframes statusRipple {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 50px 20px 30px;
+            position: relative;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        .logo {
+            background: rgba(255, 100, 100, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 25px 35px;
+            border-radius: 25px;
+            box-shadow: 
+                0 20px 40px rgba(255, 100, 100, 0.15),
+                0 0 60px rgba(255, 100, 100, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 100, 100, 0.3);
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: logoShine 5s infinite;
+        }
+
+        .castle-icon {
+            font-size: 56px;
+            margin-bottom: 8px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .logo h1 {
+            font-size: 3em;
+            font-weight: 900;
+            text-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(255, 100, 100, 0.3);
+            margin: 0;
+            letter-spacing: 2px;
+            color: #ff6464;
+        }
+
+        .logo .network {
+            font-size: 1.3em;
+            opacity: 0.9;
+            letter-spacing: 4px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #ff8888;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(0.5deg); }
+            50% { transform: translateY(-12px) rotate(0deg); }
+            75% { transform: translateY(-8px) rotate(-0.5deg); }
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .progress-section {
+            max-width: 1200px;
+            margin: 40px auto 20px;
+            padding: 0 20px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 100, 100, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 100, 100, 0.1);
+            border: 1px solid rgba(255, 100, 100, 0.2);
+        }
+
+        .progress-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .progress-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ff6464;
+        }
+
+        .progress-percentage {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ff6464;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 100, 100, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: rgba(255, 100, 100, 0.4);
+            width: 0%;
+            border-radius: 6px;
+            animation: progressPulse 3s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255, 100, 100, 0.3);
+        }
+
+        @keyframes progressPulse {
+            0%, 100% { width: 0%; }
+            50% { width: 15%; }
         }
 
         .main-content {
-            display: none;
-            width: 90%;
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            height: fit-content;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            box-shadow: 0 10px 40px rgba(255, 100, 100, 0.1);
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 18px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 100, 100, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-item:hover::before {
+            opacity: 1;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255, 100, 100, 0.15);
+            border-left-color: #ff6464;
+            transform: translateX(8px);
+            box-shadow: 0 5px 20px rgba(255, 100, 100, 0.2);
+        }
+
+        .sidebar-item.active {
+            background: rgba(255, 100, 100, 0.2);
+            border-left-color: #ff6464;
+            box-shadow: 0 5px 20px rgba(255, 100, 100, 0.25);
+        }
+
+        .sidebar-icon {
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 100, 100, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(255, 100, 100, 0.2);
+        }
+
+        .sidebar-text {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .content-area {
+            flex: 1;
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            box-shadow: 0 10px 40px rgba(255, 100, 100, 0.1);
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .welcome-section h2 {
+            font-size: 2.2em;
+            color: #ff6464;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .welcome-section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            opacity: 0.9;
             max-width: 600px;
-            background: rgba(20, 20, 20, 0.9);
+            margin: 0 auto;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #ff6464;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            box-shadow: 0 8px 25px rgba(255, 100, 100, 0.1);
+        }
+
+        .info-card h3 {
+            color: #ff6464;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .info-card p {
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: rgba(255, 100, 100, 0.2);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid rgba(255, 100, 100, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 100, 100, 0.2);
+        }
+
+        .btn:hover {
+            background: rgba(255, 100, 100, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 100, 100, 0.3);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .payment-method {
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(10px);
             padding: 20px;
             border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
-
-        .title {
-            font-size: 2rem;
-            color: #ff0000;
-            text-shadow: 0 0 10px #ff0000;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 10px;
-            background: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 100, 100, 0.2);
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .button:hover {
-            background: #cc0000;
+        .payment-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 100, 100, 0.2);
+            border-color: rgba(255, 100, 100, 0.3);
+            background: rgba(255, 100, 100, 0.15);
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .payment-icon {
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 100, 100, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(255, 100, 100, 0.2);
+        }
+
+        .donator-section {
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            box-shadow: 0 8px 25px rgba(255, 100, 100, 0.1);
+        }
+
+        .donator-crown {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .donator-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .donator-avatar {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 100, 100, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(255, 100, 100, 0.2);
+        }
+
+        .donator-name {
+            color: #ff6464;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 100, 100, 0.1);
+            backdrop-filter: blur(20px);
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 100, 100, 0.2);
+        }
+
+        .footer-logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ff6464;
+        }
+
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .gift-section {
+            margin: 30px 0;
+        }
+
+        .gift-input {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .gift-code-input {
+            flex: 1;
+            background: rgba(255, 100, 100, 0.1);
+            border: 1px solid rgba(255, 100, 100, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .gift-code-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .recent-purchases {
+            margin-top: 20px;
+        }
+
+        .purchase-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .purchase-avatar {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 100, 100, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 3px 8px rgba(255, 100, 100, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .main-content {
+                flex-direction: column;
+                padding: 0 15px;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero-section {
+                padding: 30px 15px 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <div class="loading-text" id="loading-text">Loading: 5</div>
+    <div class="minecraft-bg"></div>
+    
+    <header class="header">
+        <div class="header-left">
+            <div class="currency">VALUTA EUR</div>
+            <div class="language">
+                <span>🇮🇹</span>
+                <span>ITALIAN</span>
+            </div>
+            <div class="cart-info">🛒 NON CONNESSO</div>
+        </div>
+        <div class="server-status">
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <div>
+                    <div><strong>play.tharisnetwork.cc</strong></div>
+                    <small>0 Giocatori Online</small>
+                </div>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <div>
+                    <div><strong>Server Discord</strong></div>
+                    <small>0 Membri Online</small>
+                </div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">O</div>
+                <span>OSPITE</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="logo-container">
+            <div class="logo">
+                <div class="castle-icon">🏰</div>
+                <h1>THARIS</h1>
+                <div class="network">NETWORK</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="progress-section">
+        <div class="progress-bar">
+            <div class="progress-content">
+                <span class="progress-title">Community Goal</span>
+                <span class="progress-percentage">0.00%</span>
+            </div>
+            <div class="progress-content">
+                <small>0.00 / 50.00 EUR</small>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="main-content" id="main-content">
-        <h1 class="title">Welcome to Pix And Laughs' Shop!</h1>
-        <p>Compra i tuoi rank , vip oppure dacci un occhiata!</p>
-        <a href="#" class="button">Start Shopping</a>
+    <div class="main-content">
+        <aside class="sidebar">
+            <div class="sidebar-item active">
+                <div class="sidebar-icon">🏠</div>
+                <span class="sidebar-text">Home</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">📦</div>
+                <span class="sidebar-text">Generale</span>
+            </div>
+            <div class="sidebar-item">
+                <div class="sidebar-icon">❤️</div>
+                <span class="sidebar-text">Lifesteal</span>
+            </div>
+            
+            <div class="donator-section">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <span class="donator-crown">👑</span>
+                    <strong>Miglior Donatore</strong>
+                </div>
+                <div class="donator-info">
+                    <div class="donator-avatar">E</div>
+                    <div>
+                        <div class="donator-name">ERMORTAXOYTBER</div>
+                        <small style="opacity: 0.8;">Ha donato di più questo mese</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="donator-section">
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <strong>Pagamenti Recenti 🚀</strong>
+                </div>
+                <div class="recent-purchases">
+                    <div class="purchase-item">
+                        <div class="purchase-avatar">P</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="welcome-section">
+                <h2>Benvenuto nel negozio ufficiale di TharisNetwork!</h2>
+                <p>Per iniziare lo shopping, seleziona una categoria dalla barra laterale. Nota che i ranghi hanno un costo una tantum e sono permanenti.</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Supporto / Domande</h3>
+                    <p>Hai bisogno di risposte alle tue domande prima di effettuare l'acquisto? Hai aspettato più di 20 minuti ma il tuo pacchetto non è ancora arrivato? Chiedi alla community o allo staff sul nostro server Discord! Siamo qui per aiutarti.</p>
+                    <p>Potrebbe volerci fino a 15 minuti per elaborare il tuo acquisto. Se non sei ancora accreditato dopo 15 minuti, contatta il nostro team di supporto su Discord.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>Politica di Rimborso</h3>
+                    <p>Abbiamo una politica di no-rimborso. Tutti gli acquisti sono definitivi e non rimborsabili. Assicurati di acquistare l'articolo corretto prima di procedere al pagamento.</p>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="#" class="btn">Discord</a>
+                <a href="#" class="btn">Terms & Conditions</a>
+                <a href="#" class="btn">Contact Us</a>
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <div class="payment-icon">💳</div>
+                    <div>
+                        <div><strong>PayPal</strong></div>
+                        <small style="opacity: 0.8;">Saldo PayPal, Banche, Tutte le Carte di Credito/Debito.</small>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">💰</div>
+                    <div>
+                        <div><strong>Skrill</strong></div>
+                        <small style="opacity: 0.8;">Paysafecard, Amazon Pay, Pagamenti Mobili, +600 Altro</small>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <div class="payment-icon">💸</div>
+                    <div>
+                        <div><strong>Stripe</strong></div>
+                        <small style="opacity: 0.8;">Tutte le Carte di Credito e Debito.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gift-section">
+                <h3 style="color: #ff6464; margin-bottom: 15px;">Buono Regalo</h3>
+                <div class="gift-input">
+                    <input type="text" class="gift-code-input" placeholder="Codice Carta">
+                    <button class="btn">Verifica</button>
+                </div>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <h3 style="color: #ff6464; margin-bottom: 15px;">Chi Siamo</h3>
+                <p style="opacity: 0.9; line-height: 1.6;">TharisNetwork è una rete di Minecraft Java Edition che offre ai giocatori un gameplay coinvolgente e unico. Questo è l'unico negozio ufficiale per la rete.</p>
+            </div>
+        </main>
     </div>
 
-    <script>
-        let timeLeft = 5;
-        const loadingText = document.getElementById('loading-text');
-        const loadingScreen = document.getElementById('loading');
-        const mainContent = document.getElementById('main-content');
-
-        const countdown = setInterval(() => {
-            timeLeft--;
-            loadingText.textContent = `Loading: ${timeLeft}`;
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                loadingScreen.style.display = 'none';
-                mainContent.style.display = 'block';
-            }
-        }, 1000);
-    </script>
+    <footer class="footer">
+        <div class="footer-logo">© 2025 TharisNetwork</div>
+        <p>Tutti i diritti riservati</p>
+    </footer>
 </body>
 </html>
